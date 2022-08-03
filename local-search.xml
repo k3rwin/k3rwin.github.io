@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Dependency-Check SCA工具使用指南</title>
+    <link href="/2022/08/03/Dependency-Check-SCA%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <url>/2022/08/03/Dependency-Check-SCA%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Dependency-Check-SCA工具使用指南"><a href="#Dependency-Check-SCA工具使用指南" class="headerlink" title="Dependency-Check SCA工具使用指南"></a>Dependency-Check SCA工具使用指南</h1><h2 id="1-工具介绍"><a href="#1-工具介绍" class="headerlink" title="1.工具介绍"></a>1.工具介绍</h2><blockquote><p>官方翻译：Dependency-Check是一种软件组成分析（SCA）工具，它试图检测项目依赖项中包含的公开披露的漏洞。它通过确定给定依赖项是否存在通用平台枚举（CPE）标识符来完成此操作。如果找到，它将生成一个报告，链接到相关的CVE条目。</p></blockquote><hr><ul><li>扫描原理：分析当前项目中的组件依赖包版本与公开漏洞库中的对应版本漏洞进行对比，比如你项目中依赖了Struts 2.0.0，那这个工具会告诉你Struts2.0.0相关的jar包存在风险</li></ul><h2 id="2-工具使用"><a href="#2-工具使用" class="headerlink" title="2.工具使用"></a>2.工具使用</h2><h3 id="2-1-工具下载安装"><a href="#2-1-工具下载安装" class="headerlink" title="2.1 工具下载安装"></a>2.1 工具下载安装</h3><ul><li><p>Github开源项目<a href="https://github.com/jeremylong/DependencyCheck">Dependency-Check地址</a></p></li><li><p>下载安装最新的<a href="https://github.com/jeremylong/DependencyCheck/releases/">release版本</a>,解压并安装</p><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208031632887.png" alt="image-20220803163230835"></p><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="image-20220803163336650"></p></li></ul><h3 id="2-2-扫描"><a href="#2-2-扫描" class="headerlink" title="2.2 扫描"></a>2.2 扫描</h3><h4 id="2-2-1在线对比公开漏洞库（CVE、CWE、CPE）"><a href="#2-2-1在线对比公开漏洞库（CVE、CWE、CPE）" class="headerlink" title="2.2.1在线对比公开漏洞库（CVE、CWE、CPE）"></a>2.2.1在线对比公开漏洞库（CVE、CWE、CPE）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./bin/dependency-check.sh --project &quot;my_app&quot; --scan &quot;/tmp/mnt/spring-cloud-gateway-0.0.1-SNAPSHOT.jar&quot; -f CSV -o vuln.csv<br></code></pre></td></tr></table></figure><blockquote><p>–project “my_app” 指定扫描项目名</p><p>–scan “&#x2F;tmp&#x2F;mnt&#x2F;spring-cloud-gateway-0.0.1-SNAPSHOT.jar” 指定扫描系统，此处扫描使用了spring-cloud-gateway rce的靶场地址</p><p>-f CSV 指定扫描报告格式（默认html）</p><p>-o vuln.csv 指定扫描报告导出地址和文件名</p></blockquote><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208031642378%E6%89%AB%E6%8F%8F%E5%AE%8C%E6%88%90.png" alt="image-20220803164206353"></p><h3 id="2-3查看扫描报告"><a href="#2-3查看扫描报告" class="headerlink" title="2.3查看扫描报告"></a>2.3查看扫描报告</h3><ul><li>主要内容就4列，扫描依赖名称、对应物理路径、描述、漏洞编号</li></ul><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208031646698%E6%89%AB%E6%8F%8F%E6%8A%A5%E5%91%8A.png" alt="image-20220803164534892"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>note</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>tools</tag>
+      
+      <tag>漏扫</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>钓鱼演示合集</title>
     <link href="/2022/07/01/%E9%92%93%E9%B1%BC%E6%BC%94%E7%A4%BA%E5%90%88%E9%9B%86/"/>
     <url>/2022/07/01/%E9%92%93%E9%B1%BC%E6%BC%94%E7%A4%BA%E5%90%88%E9%9B%86/</url>
