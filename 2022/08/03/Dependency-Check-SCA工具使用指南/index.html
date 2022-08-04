@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208042302372.png">
 <meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208031646698%E6%89%AB%E6%8F%8F%E6%8A%A5%E5%91%8A.png">
 <meta property="article:published_time" content="2022-08-03T07:55:34.000Z">
-<meta property="article:modified_time" content="2022-08-04T15:07:24.478Z">
+<meta property="article:modified_time" content="2022-08-04T15:21:32.571Z">
 <meta property="article:author" content="k3rwin">
 <meta property="article:tag" content="tools">
 <meta property="article:tag" content="漏扫">
@@ -374,8 +374,8 @@
 <p>–scan “&#x2F;tmp&#x2F;mnt&#x2F;spring-cloud-gateway-0.0.1-SNAPSHOT.jar” 指定扫描系统，此处扫描使用了spring-cloud-gateway rce的靶场地址</p>
 <p>-f CSV 指定扫描报告格式（默认HTML,必须大写）</p>
 <p>-o vuln.csv 指定扫描报告导出地址和文件名</p>
-<p>–cveUrlModified 指定cve-modified文件，选择 nvdcve-1.1-modified.json.gz</p>
-<p>–cveUrlBase 指定当年的cve文件，选择nvdcve-1.1-2022.json.gz</p>
+<p>–cveUrlModified 指定cve-modified文件，选择 nvdcve-1.1-modified.json.gz的url路径</p>
+<p>–cveUrlBase 指定当年的cve文件，选择nvdcve-1.1-2022.json.gz的url路径</p>
 <p>至于cveUrlModified和cveUrlBase为什么选这两个，我也不懂，看官网参数的默认值就是这两个，毕竟没有中文文档，<a target="_blank" rel="noopener" href="https://jeremylong.github.io/DependencyCheck/dependency-check-maven/configuration.html?spm=a2c6h.12873639.article-detail.6.32f42378QRDyy2">文档地址</a>。尝试换cveUrlBase参数为2005年漏洞库：.&#x2F;bin&#x2F;dependency-check.sh –project test -s ..&#x2F;spring-cloud-gateway-0.0.1-SNAPSHOT.jar -f CSV -o vuln2005.csv –cveUrlModified &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;nist-data&#x2F;nvdcve-1.1-modified.json.gz –cveUrlBase &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;nist-data&#x2F;nvdcve-1.1-2005.json.gz&#96;，发现得到的报告完全一致。</p>
 <p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208042302372.png" srcset="/img/loading.gif" lazyload alt="参数详情"></p>
 </blockquote>
