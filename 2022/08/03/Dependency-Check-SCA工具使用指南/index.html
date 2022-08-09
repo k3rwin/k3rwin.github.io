@@ -18,12 +18,12 @@
   <meta name="author" content="k3rwin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Dependency-Check SCA工具使用指南1.工具介绍 官方翻译：Dependency-Check是一种软件组成分析（SCA）工具，它试图检测项目依赖项中包含的公开披露的漏洞。它通过确定给定依赖项是否存在通用平台枚举（CPE）标识符来完成此操作。如果找到，它将生成一个报告，链接到相关的CVE条目。    扫描原理：分析当前项目中的组件依赖包版本与公开漏洞库中的对应版本漏洞进行对比，比如你">
+    <meta name="description" content="Dependency-Check SCA工具使用指南0x1.工具介绍 官方翻译：Dependency-Check是一种软件组成分析（SCA）工具，它试图检测项目依赖项中包含的公开披露的漏洞。它通过确定给定依赖项是否存在通用平台枚举（CPE）标识符来完成此操作。如果找到，它将生成一个报告，链接到相关的CVE条目。    扫描原理：分析当前项目中的组件依赖包版本与公开漏洞库中的对应版本漏洞进行对比，比">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Dependency-Check SCA工具使用指南">
 <meta property="og:url" content="https://k3rwin.github.io/2022/08/03/Dependency-Check-SCA%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/index.html">
 <meta property="og:site_name" content="K3rwin&#39;s Blog">
-<meta property="og:description" content="Dependency-Check SCA工具使用指南1.工具介绍 官方翻译：Dependency-Check是一种软件组成分析（SCA）工具，它试图检测项目依赖项中包含的公开披露的漏洞。它通过确定给定依赖项是否存在通用平台枚举（CPE）标识符来完成此操作。如果找到，它将生成一个报告，链接到相关的CVE条目。    扫描原理：分析当前项目中的组件依赖包版本与公开漏洞库中的对应版本漏洞进行对比，比如你">
+<meta property="og:description" content="Dependency-Check SCA工具使用指南0x1.工具介绍 官方翻译：Dependency-Check是一种软件组成分析（SCA）工具，它试图检测项目依赖项中包含的公开披露的漏洞。它通过确定给定依赖项是否存在通用平台枚举（CPE）标识符来完成此操作。如果找到，它将生成一个报告，链接到相关的CVE条目。    扫描原理：分析当前项目中的组件依赖包版本与公开漏洞库中的对应版本漏洞进行对比，比">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208031632887.png">
 <meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208042302372.png">
 <meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202208031646698%E6%89%AB%E6%8F%8F%E6%8A%A5%E5%91%8A.png">
 <meta property="article:published_time" content="2022-08-03T07:55:34.000Z">
-<meta property="article:modified_time" content="2022-08-04T15:21:32.571Z">
+<meta property="article:modified_time" content="2022-08-09T15:04:50.300Z">
 <meta property="article:author" content="k3rwin">
 <meta property="article:tag" content="tools">
 <meta property="article:tag" content="漏扫">
@@ -331,14 +331,14 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Dependency-Check-SCA工具使用指南"><a href="#Dependency-Check-SCA工具使用指南" class="headerlink" title="Dependency-Check SCA工具使用指南"></a>Dependency-Check SCA工具使用指南</h1><h2 id="1-工具介绍"><a href="#1-工具介绍" class="headerlink" title="1.工具介绍"></a>1.工具介绍</h2><blockquote>
+                <h1 id="Dependency-Check-SCA工具使用指南"><a href="#Dependency-Check-SCA工具使用指南" class="headerlink" title="Dependency-Check SCA工具使用指南"></a>Dependency-Check SCA工具使用指南</h1><h2 id="0x1-工具介绍"><a href="#0x1-工具介绍" class="headerlink" title="0x1.工具介绍"></a>0x1.工具介绍</h2><blockquote>
 <p>官方翻译：Dependency-Check是一种软件组成分析（SCA）工具，它试图检测项目依赖项中包含的公开披露的漏洞。它通过确定给定依赖项是否存在通用平台枚举（CPE）标识符来完成此操作。如果找到，它将生成一个报告，链接到相关的CVE条目。</p>
 </blockquote>
 <hr>
 <ul>
 <li>扫描原理：分析当前项目中的组件依赖包版本与公开漏洞库中的对应版本漏洞进行对比，比如你项目中依赖了Struts 2.0.0，那这个工具会告诉你Struts2.0.0相关的jar包存在风险</li>
 </ul>
-<h2 id="2-工具使用"><a href="#2-工具使用" class="headerlink" title="2.工具使用"></a>2.工具使用</h2><h3 id="2-1-工具下载安装"><a href="#2-1-工具下载安装" class="headerlink" title="2.1 工具下载安装"></a>2.1 工具下载安装</h3><ul>
+<h2 id="0x2-工具使用"><a href="#0x2-工具使用" class="headerlink" title="0x2.工具使用"></a>0x2.工具使用</h2><h3 id="2-1-工具下载安装"><a href="#2-1-工具下载安装" class="headerlink" title="2.1 工具下载安装"></a>2.1 工具下载安装</h3><ul>
 <li><p>Github开源项目<a target="_blank" rel="noopener" href="https://github.com/jeremylong/DependencyCheck">Dependency-Check地址</a></p>
 </li>
 <li><p>下载安装最新的<a target="_blank" rel="noopener" href="https://github.com/jeremylong/DependencyCheck/releases/">release版本</a>,解压并安装</p>
@@ -450,7 +450,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2022年8月4日</div>
+          <div>2022年8月9日</div>
         </div>
       
       <div class="license-meta-item">

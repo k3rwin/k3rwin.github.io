@@ -18,16 +18,16 @@
   <meta name="author" content="k3rwin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Log4j2 RCE漏洞复现1.漏洞原理Apache Log4j2是一个开源的日志记录组件，使用非常的广泛。 日志在打印时当遇到 $&amp;#123; 后，Interpolator 类以 : 号作为分割，将表达式内容分割成两部分，前面部分作为 prefix，后面部分作为 key。然后通过 prefix 去找对应的 lookup，通过对应的 lookup 实例调用 lookup 方法，最后将 key 作为">
+    <meta name="description" content="Log4j2 RCE漏洞复现0x1.漏洞原理Apache Log4j2是一个开源的日志记录组件，使用非常的广泛。 日志在打印时当遇到 $&amp;#123; 后，Interpolator 类以 : 号作为分割，将表达式内容分割成两部分，前面部分作为 prefix，后面部分作为 key。然后通过 prefix 去找对应的 lookup，通过对应的 lookup 实例调用 lookup 方法，最后将 key">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Log4j2 RCE漏洞复现">
 <meta property="og:url" content="https://k3rwin.github.io/2021/12/24/Log4j2-RCE%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/index.html">
 <meta property="og:site_name" content="K3rwin&#39;s Blog">
-<meta property="og:description" content="Log4j2 RCE漏洞复现1.漏洞原理Apache Log4j2是一个开源的日志记录组件，使用非常的广泛。 日志在打印时当遇到 $&amp;#123; 后，Interpolator 类以 : 号作为分割，将表达式内容分割成两部分，前面部分作为 prefix，后面部分作为 key。然后通过 prefix 去找对应的 lookup，通过对应的 lookup 实例调用 lookup 方法，最后将 key 作为">
+<meta property="og:description" content="Log4j2 RCE漏洞复现0x1.漏洞原理Apache Log4j2是一个开源的日志记录组件，使用非常的广泛。 日志在打印时当遇到 $&amp;#123; 后，Interpolator 类以 : 号作为分割，将表达式内容分割成两部分，前面部分作为 prefix，后面部分作为 key。然后通过 prefix 去找对应的 lookup，通过对应的 lookup 实例调用 lookup 方法，最后将 key">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/imglog4j2-index.png">
 <meta property="article:published_time" content="2021-12-24T09:12:41.000Z">
-<meta property="article:modified_time" content="2022-08-01T11:39:28.130Z">
+<meta property="article:modified_time" content="2022-08-09T15:03:43.090Z">
 <meta property="article:author" content="k3rwin">
 <meta property="article:tag" content="log4j2">
 <meta property="article:tag" content="rce">
@@ -327,9 +327,9 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Log4j2-RCE漏洞复现"><a href="#Log4j2-RCE漏洞复现" class="headerlink" title="Log4j2 RCE漏洞复现"></a>Log4j2 RCE漏洞复现</h1><h2 id="1-漏洞原理"><a href="#1-漏洞原理" class="headerlink" title="1.漏洞原理"></a>1.漏洞原理</h2><p>Apache Log4j2是一个开源的日志记录组件，使用非常的广泛。</p>
+                <h1 id="Log4j2-RCE漏洞复现"><a href="#Log4j2-RCE漏洞复现" class="headerlink" title="Log4j2 RCE漏洞复现"></a>Log4j2 RCE漏洞复现</h1><h2 id="0x1-漏洞原理"><a href="#0x1-漏洞原理" class="headerlink" title="0x1.漏洞原理"></a>0x1.漏洞原理</h2><p>Apache Log4j2是一个开源的日志记录组件，使用非常的广泛。</p>
 <p>日志在打印时当遇到 <code>$&#123;</code> 后，Interpolator 类以 <code>:</code> 号作为分割，将表达式内容分割成两部分，前面部分作为 prefix，后面部分作为 key。然后通过 prefix 去找对应的 lookup，通过对应的 lookup 实例调用 lookup 方法，最后将 key 作为参数带入执行。</p>
-<h2 id="2-影响程序、组件及版本"><a href="#2-影响程序、组件及版本" class="headerlink" title="2.影响程序、组件及版本"></a>2.影响程序、组件及版本</h2><p>影响程序有：</p>
+<h2 id="0x2-影响程序、组件及版本"><a href="#0x2-影响程序、组件及版本" class="headerlink" title="0x2.影响程序、组件及版本"></a>0x2.影响程序、组件及版本</h2><p>影响程序有：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java">Spring-Boot-strater-log4j2<br>Apache Struts2<br>Apache Solr<br>Apache Flink<br>Apache Druid<br>ElasticSearch<br>Flume<br>Dubbo<br>Redis<br>Logstash<br>Kafka<br>vmvare<br></code></pre></td></tr></table></figure>
 
 <table>
@@ -346,7 +346,7 @@
 <td>2.15.0-rc2</td>
 </tr>
 </tbody></table>
-<h2 id="3-漏洞复现"><a href="#3-漏洞复现" class="headerlink" title="3.漏洞复现"></a>3.漏洞复现</h2><ul>
+<h2 id="0x3-漏洞复现"><a href="#0x3-漏洞复现" class="headerlink" title="0x3.漏洞复现"></a>0x3.漏洞复现</h2><ul>
 <li><h3 id="靶场源码如下："><a href="#靶场源码如下：" class="headerlink" title="靶场源码如下："></a>靶场源码如下：</h3></li>
 </ul>
 <p>靶场下载：</p>
@@ -399,7 +399,7 @@
 <p>&#x2F;Basic&#x2F;TomcatMemshell1   内存马，访问地址为：&#x2F;anything?type&#x3D;basic&amp;pass&#x3D;whoami</p>
 <p>&#x2F;Basic&#x2F;TomcatMemshell2  的访问方式需要修改<code>冰蝎</code>客户端（请参考 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/n1wrjep4FVtBkOxLouAYfQ">冰蝎改造之适配基于tomcat Filter的无文件webshell</a> 的方式二自行修改），并在访问时需要添加 <code>X-Options-Ai</code> 头部，密码为<code>rebeyond</code></p>
 </blockquote>
-<h2 id="4-漏洞防御"><a href="#4-漏洞防御" class="headerlink" title="4.漏洞防御"></a>4.漏洞防御</h2><ol>
+<h2 id="0x4-漏洞防御"><a href="#0x4-漏洞防御" class="headerlink" title="0x4.漏洞防御"></a>0x4.漏洞防御</h2><ol>
 <li>采用waf对请求流量中的${jndi进行拦截（存在绕过）</li>
 <li>采用 rasp 对lookup的调用进行阻断</li>
 <li>设置 JVM 启动参数 - <code>Dlog4j2.formatMsgNoLookups=true</code>（log4j2版本2.10+）</li>
@@ -478,7 +478,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2022年8月1日</div>
+          <div>2022年8月9日</div>
         </div>
       
       <div class="license-meta-item">
