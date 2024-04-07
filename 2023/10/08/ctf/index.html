@@ -18,11 +18,15 @@
   <meta name="author" content="k3rwin">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="https://k3rwin.github.io/archives/index.html">
+    <meta name="description" content="CTF一.简单得分 linux服务器下根目录或者root目录下flag.txt 提权后使用命令全盘检索find  &#x2F;  -type f -name &quot;*flag*&quot;  base64解密">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctf">
+<meta property="og:url" content="https://k3rwin.github.io/2023/10/08/ctf/index.html">
 <meta property="og:site_name" content="K3rwin&#39;s Blog">
+<meta property="og:description" content="CTF一.简单得分 linux服务器下根目录或者root目录下flag.txt 提权后使用命令全盘检索find  &#x2F;  -type f -name &quot;*flag*&quot;  base64解密">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-08T07:08:53.000Z">
+<meta property="article:modified_time" content="2023-11-16T09:35:10.828Z">
 <meta property="article:author" content="k3rwin">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -30,11 +34,17 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>归档 - K3rwin&#39;s Blog</title>
+  <title>ctf - K3rwin&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -106,7 +116,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -223,9 +233,62 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="归档"></span>
+            <span id="subtitle" data-typed-text="ctf"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        k3rwin
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-08 15:08" pubdate>
+          2023年10月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          91 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          1 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
 
         
       </div>
@@ -241,106 +304,216 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="list-group">
-  <p class="h4">共计 13 篇文章</p>
-  <hr>
-  
-  
-    
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-      <p class="h5">2024</p>
-    
-    <a href="/2024/04/07/tips/" class="list-group-item list-group-item-action">
-      <time>04-07</time>
-      <div class="list-group-item-title">tips</div>
-    </a>
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ctf</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h1><h2 id="一-简单得分"><a href="#一-简单得分" class="headerlink" title="一.简单得分"></a>一.简单得分</h2><ol>
+<li><p>linux服务器下根目录或者root目录下<code>flag.txt</code></p>
+<p>提权后使用命令全盘检索<code>find  /  -type f -name &quot;*flag*&quot;</code></p>
+</li>
+<li><p>base64解密</p>
+</li>
+<li></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
   
-    
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
       
-      <p class="h5">2023</p>
-    
-    <a href="/2023/11/13/awd-note/" class="list-group-item list-group-item-action">
-      <time>11-13</time>
-      <div class="list-group-item-title">awd_note</div>
-    </a>
+
+<span class="category-chains">
+  
   
     
-    <a href="/2023/10/26/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%88%90%E5%8A%9F%E7%9A%84%E5%BA%94%E6%80%A5%E5%B9%B6%E6%BA%AF%E6%BA%90%E7%BA%A2%E9%98%9F%E8%BA%AB%E4%BB%BD/" class="list-group-item list-group-item-action">
-      <time>10-26</time>
-      <div class="list-group-item-title">记一次成功的应急并溯源红队身份</div>
-    </a>
+      <span class="category-chain">
+        
+  <a href="/categories/note/" class="category-chain-item">note</a>
   
-    
-    <a href="/2023/10/08/ctf/" class="list-group-item list-group-item-action">
-      <time>10-08</time>
-      <div class="list-group-item-title">ctf</div>
-    </a>
   
+
+      </span>
     
-    <a href="/2023/09/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" class="list-group-item list-group-item-action">
-      <time>09-22</time>
-      <div class="list-group-item-title">流量分析</div>
-    </a>
   
-    
-    <a href="/2023/09/06/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%E5%90%88%E9%9B%86/" class="list-group-item list-group-item-action">
-      <time>09-06</time>
-      <div class="list-group-item-title">内网横向移动合集</div>
-    </a>
+</span>
+
+    </div>
   
-    
-    <a href="/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/" class="list-group-item list-group-item-action">
-      <time>09-02</time>
-      <div class="list-group-item-title">近源渗透</div>
-    </a>
-  
-    
-      
-      <p class="h5">2022</p>
-    
-    <a href="/2022/12/12/python%E5%AE%9E%E7%8E%B0sql%E4%B8%AD%E8%BD%AC%E6%B3%A8%E5%85%A5/" class="list-group-item list-group-item-action">
-      <time>12-12</time>
-      <div class="list-group-item-title">python实现sql中转注入</div>
-    </a>
-  
-    
-    <a href="/2022/08/09/frp%E9%AD%94%E6%94%B9-%E9%9A%90%E8%97%8F%E7%89%B9%E5%BE%81/" class="list-group-item list-group-item-action">
-      <time>08-09</time>
-      <div class="list-group-item-title">frp魔改-隐藏特征</div>
-    </a>
-  
-    
-    <a href="/2022/08/05/SCF%E4%BA%91%E5%87%BD%E6%95%B0%E4%B9%8BC2%E9%9A%90%E8%97%8F/" class="list-group-item list-group-item-action">
-      <time>08-05</time>
-      <div class="list-group-item-title">SCF云函数之C2隐藏</div>
-    </a>
   
 </div>
 
 
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/#board">2</a><a class="extend next" rel="next" href="/archives/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
+              
+  
 
-
-
-
-              </div>
-            </div>
-          </div>
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ctf</div>
+      <div>https://k3rwin.github.io/2023/10/08/ctf/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>k3rwin</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月8日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2023年11月16日</div>
+        </div>
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
         </div>
       </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/10/26/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%88%90%E5%8A%9F%E7%9A%84%E5%BA%94%E6%80%A5%E5%B9%B6%E6%BA%AF%E6%BA%90%E7%BA%A2%E9%98%9F%E8%BA%AB%E4%BB%BD/" title="记一次成功的应急并溯源红队身份">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">记一次成功的应急并溯源红队身份</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/09/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" title="流量分析">
+                        <span class="hidden-mobile">流量分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  <article id="comments" lazyload>
+    
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script type="text/javascript">
+        var disqus_config = function() {
+          this.page.url = 'https://k3rwin.github.io/2023/10/08/ctf/';
+          this.page.identifier = '/2023/10/08/ctf/';
+        };
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//' + 'k3rwin-github-io' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+  </article>
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
     
@@ -458,6 +631,72 @@
 
 
 
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
 

